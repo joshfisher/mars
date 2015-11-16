@@ -4,6 +4,101 @@ import Mars
 
 class MarsTests: XCTestCase {
     
+    // MARK: Optional
+    
+    func testFlatMap2() -> () {
+        let add = {(a: Int, b: Int) in
+            return a + b
+        }
+        
+        let opt: Int? = 1
+        let sum = (opt, opt) >>- add
+        XCTAssertEqual(sum, 2)
+        
+        let none = (opt, nil) >>- add
+        XCTAssertNil(none)
+    }
+    
+    func testFlatMap3() -> () {
+        let add = {(a: Int, b: Int, c: Int) in
+            return a + b + c
+        }
+        
+        let opt: Int? = 1
+        let sum = (opt, opt, opt) >>- add
+        XCTAssertEqual(sum, 3)
+        
+        let none = (opt, opt, nil) >>- add
+        XCTAssertNil(none)
+    }
+    
+    func testFlatMap4() -> () {
+        let add = {(a: Int, b: Int, c: Int, d: Int) in
+            return a + b + c + d
+        }
+        
+        let opt: Int? = 1
+        let sum = (opt, opt, opt, opt) >>- add
+        XCTAssertEqual(sum, 4)
+        
+        let none = (opt, opt, opt, nil) >>- add
+        XCTAssertNil(none)
+    }
+    
+    func testFlatMap5() -> () {
+        let add = {(a: Int, b: Int, c: Int, d: Int, e: Int) in
+            return a + b + c + d + e
+        }
+        
+        let opt: Int? = 1
+        let sum = (opt, opt, opt, opt, opt) >>- add
+        XCTAssertEqual(sum, 5)
+        
+        let none = (opt, opt, opt, opt, nil) >>- add
+        XCTAssertNil(none)
+    }
+    
+    func testFlatMap6() -> () {
+        let add = {(a: Int, b: Int, c: Int, d: Int, e: Int, f: Int) in
+            return a + b + c + d + e + f
+        }
+        
+        let opt: Int? = 1
+        let sum = (opt, opt, opt, opt, opt, opt) >>- add
+        XCTAssertEqual(sum, 6)
+        
+        let none = (opt, opt, opt, opt, opt, nil) >>- add
+        XCTAssertNil(none)
+    }
+    
+    func testFlatMap7() -> () {
+        let add = {(a: Int, b: Int, c: Int, d: Int, e: Int, f: Int, g: Int) in
+            return a + b + c + d + e + f + g
+        }
+        
+        let opt: Int? = 1
+        let sum = (opt, opt, opt, opt, opt, opt, opt) >>- add
+        XCTAssertEqual(sum, 7)
+        
+        let none = (opt, opt, opt, opt, opt, opt, nil) >>- add
+        XCTAssertNil(none)
+    }
+    
+    func testFlatMap8() -> () {
+        let add = {(a: Int, b: Int, c: Int, d: Int, e: Int, f: Int, g: Int, h: Int) in
+            return a + b + c + d + e + f + g + h
+        }
+        
+        let opt: Int? = 1
+        let sum = (opt, opt, opt, opt, opt, opt, opt, opt) >>- add
+        XCTAssertEqual(sum, 8)
+        
+        let none = (opt, opt, opt, opt, opt, opt, opt, nil) >>- add
+        XCTAssertNil(none)
+    }
+    
+    // MARK: SequenceType
+    
     func testAll() -> () {
         let numbers = [1, 2, 3, 4, 5, 6, 7, 8 , 9, 10]
         let isEven = {$0 % 2 == 0}

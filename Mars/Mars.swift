@@ -1,5 +1,201 @@
 import Foundation
 
+// MARK: - Optional -
+
+infix operator >>- {
+    associativity left
+    precedence 100
+}
+
+/**
+ Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+ 
+ - parameter options: The optional values to unwrap.
+ - parameter transform: The closure to run on the unwrapped optionals.
+ 
+ ```
+ (.Some(2), .Some(3)) >>- {(a, b) in a * b}
+ 
+ .Some(6)
+ ```
+ */
+@warn_unused_result
+public func >>-<A, B, C>(options: (A?, B?), @noescape transform: (A, B) -> C?) -> C? {
+    return flatMap(options, transform: transform)
+}
+
+/**
+ Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+ 
+ - parameter options: The optional values to unwrap.
+ - parameter transform: The closure to run on the unwrapped optionals.
+ 
+ ```
+ (.Some(2), .Some(3)) >>- {(a, b) in a * b}
+ 
+ .Some(6)
+ ```
+ */
+@warn_unused_result
+public func >>-<A, B, C, D>(options: (A?, B?, C?), @noescape transform: (A, B, C) -> D?) -> D? {
+    return flatMap(options, transform: transform)
+}
+
+/**
+ Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+ 
+ - parameter options: The optional values to unwrap.
+ - parameter transform: The closure to run on the unwrapped optionals.
+ 
+ ```
+ (.Some(2), .Some(3)) >>- {(a, b) in a * b}
+ 
+ .Some(6)
+ ```
+ */
+@warn_unused_result
+public func >>-<A, B, C, D, E>(options: (A?, B?, C?, D?), @noescape transform: (A, B, C, D) -> E?) -> E? {
+    return flatMap(options, transform: transform)
+}
+
+/**
+ Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+ 
+ - parameter options: The optional values to unwrap.
+ - parameter transform: The closure to run on the unwrapped optionals.
+ 
+ ```
+ (.Some(2), .Some(3)) >>- {(a, b) in a * b}
+ 
+ .Some(6)
+ ```
+ */
+@warn_unused_result
+public func >>-<A, B, C, D, E, F>(options: (A?, B?, C?, D?, E?), @noescape transform: (A, B, C, D, E) -> F?) -> F? {
+    return flatMap(options, transform: transform)
+}
+
+/**
+ Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+ 
+ - parameter options: The optional values to unwrap.
+ - parameter transform: The closure to run on the unwrapped optionals.
+ 
+ ```
+ (.Some(2), .Some(3)) >>- {(a, b) in a * b}
+ 
+ .Some(6)
+ ```
+ */
+@warn_unused_result
+public func >>-<A, B, C, D, E, F, G>(options: (A?, B?, C?, D?, E?, F?), @noescape transform: (A, B, C, D, E, F) -> G?) -> G? {
+    return flatMap(options, transform: transform)
+}
+
+/**
+ Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+ 
+ - parameter options: The optional values to unwrap.
+ - parameter transform: The closure to run on the unwrapped optionals.
+ 
+ ```
+ (.Some(2), .Some(3)) >>- {(a, b) in a * b}
+ 
+ .Some(6)
+ ```
+ */
+@warn_unused_result
+public func >>-<A, B, C, D, E, F, G, H>(options: (A?, B?, C?, D?, E?, F?, G?), @noescape transform: (A, B, C, D, E, F, G) -> H?) -> H? {
+    return flatMap(options, transform: transform)
+}
+
+/**
+ Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+ 
+ - parameter options: The optional values to unwrap.
+ - parameter transform: The closure to run on the unwrapped optionals.
+ 
+ ```
+ (.Some(2), .Some(3)) >>- {(a, b) in a * b}
+ 
+ .Some(6)
+ ```
+ */
+@warn_unused_result
+public func >>-<A, B, C, D, E, F, G, H, I>(options: (A?, B?, C?, D?, E?, F?, G?, H?), @noescape transform: (A, B, C, D, E, F, G, H) -> I?) -> I? {
+    return flatMap(options, transform: transform)
+}
+
+@warn_unused_result
+public func flatMap<A, B, C>(options: (A?, B?), @noescape transform: (A, B) -> C?) -> C? {
+    switch options {
+    case (.Some(let a), .Some(let b)):
+        return transform(a, b)
+    case _:
+        return nil
+    }
+}
+
+@warn_unused_result
+public func flatMap<A, B, C, D>(options: (A?, B?, C?), @noescape transform: (A, B, C) -> D?) -> D? {
+    switch options {
+    case (.Some(let a), .Some(let b), .Some(let c)):
+        return transform(a, b, c)
+    case _:
+        return nil
+    }
+}
+
+@warn_unused_result
+public func flatMap<A, B, C, D, E>(options: (A?, B?, C?, D?), @noescape transform: (A, B, C, D) -> E?) -> E? {
+    switch options {
+    case (.Some(let a), .Some(let b), .Some(let c), .Some(let d)):
+        return transform(a, b, c, d)
+    case _:
+        return nil
+    }
+}
+
+@warn_unused_result
+public func flatMap<A, B, C, D, E, F>(options: (A?, B?, C?, D?, E?), @noescape transform: (A, B, C, D, E) -> F?) -> F? {
+    switch options {
+    case (.Some(let a), .Some(let b), .Some(let c), .Some(let d), .Some(let e)):
+        return transform(a, b, c, d, e)
+    case _:
+        return nil
+    }
+}
+
+@warn_unused_result
+public func flatMap<A, B, C, D, E, F, G>(options: (A?, B?, C?, D?, E?, F?), @noescape transform: (A, B, C, D, E, F) -> G?) -> G? {
+    switch options {
+    case (.Some(let a), .Some(let b), .Some(let c), .Some(let d), .Some(let e), .Some(let f)):
+        return transform(a, b, c, d, e, f)
+    case _:
+        return nil
+    }
+}
+
+@warn_unused_result
+public func flatMap<A, B, C, D, E, F, G, H>(options: (A?, B?, C?, D?, E?, F?, G?), @noescape transform: (A, B, C, D, E, F, G) -> H?) -> H? {
+    switch options {
+    case (.Some(let a), .Some(let b), .Some(let c), .Some(let d), .Some(let e), .Some(let f), .Some(let g)):
+        return transform(a, b, c, d, e, f, g)
+    case _:
+        return nil
+    }
+}
+
+@warn_unused_result
+public func flatMap<A, B, C, D, E, F, G, H, I>(options: (A?, B?, C?, D?, E?, F?, G?, H?), @noescape transform: (A, B, C, D, E, F, G, H) -> I?) -> I? {
+    switch options {
+    case (.Some(let a), .Some(let b), .Some(let c), .Some(let d), .Some(let e), .Some(let f), .Some(let g), .Some(let h)):
+        return transform(a, b, c, d, e, f, g, h)
+    case _:
+        return nil
+    }
+}
+
 // MARK: - SequenceType -
 
 extension SequenceType {
