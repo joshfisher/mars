@@ -1,8 +1,22 @@
 # Mars
 
-Mars is a thin framework that provides a set of extensions to `SequenceType`. There are no requirements outside of the Swift standard library and each function is thoroughly documented (and Quick Help compliant). An explaination of each function can be found below.
+Mars is a thin framework that provides a set of extensions to sequences. There are no requirements outside of the Swift standard library and each function is thoroughly documented (and Quick Help compliant). An explaination of each function can be found below.
 
-## all
+## Optional
+
+`public func >>-<A, B, C>(options: (A?, B?), @noescape transform: (A, B) -> C?) -> C?`
+
+Takes a tuple of optionals and transforms them into a new optional if all of the options have a value; otherwise, nil.
+
+```
+(.Some(2), .Some(3)) >>- {(a, b) in a * b}
+
+.Some(6)
+```
+
+## SequenceType
+
+### all
 
 `public func all(@noescape predicate: (Self.Generator.Element) -> Bool) -> Bool`
 
@@ -14,7 +28,7 @@ Determines whether all elements of the structure satisfy the predicate.
 true
 ```
 
-## any
+### any
 
 `public func any(@noescape predicate: (Self.Generator.Element) -> Bool) -> Bool`
 
@@ -26,7 +40,7 @@ Determines whether any element of the structure satisfies the predicate.
 true
 ```
 
-## cycle
+### cycle
 
 `public func cycle() -> CycleSequence<Self.Generator.Element>`
 
@@ -38,7 +52,7 @@ Returns a sequence that repeats this sequence indefinitely.
 [1, 2, 3, 1, 2]
 ```
 
-## drop
+### drop
 
 `public func drop(count: Int) -> [Self.Generator.Element]`
 
@@ -50,7 +64,7 @@ Returns a sequence containing all but the first `n` elements.
 [4, 5]
 ```
 
-## dropWhile
+### dropWhile
 
 `public func dropWhile(@noescape predicate: (Self.Generator.Element) -> Bool) -> [Self.Generator.Element]`
 
@@ -62,7 +76,7 @@ Returns a sequence containing all but the initial elements that pass the predica
 [7, 8]
 ```
 
-## first
+### first
 
 `public func first(@noescape predicate: (Self.Generator.Element) -> Bool) -> Self.Generator.Element?`
 
@@ -74,7 +88,7 @@ Finds the first element in the sequence that passes the predciate.
 Optional.Some(3)
 ```
 
-## group
+### group
 
 `public func group() -> [[Self.Generator.Element]]`
 
@@ -86,7 +100,7 @@ A convenience method that calls groupBy(==) for sequences where the elements are
 [[1, 1], [2, 2], [3], [1]]
 ```
 
-## groupBy
+### groupBy
 
 `public func groupBy(@noescape predicate: (Self.Generator.Element, Self.Generator.Element) -> Bool) -> [[Self.Generator.Element]]`
 
@@ -98,7 +112,7 @@ Partitions the sequence into an array of arrays where each array contains equal 
 [[1, 1], [2, 2], [3], [1]]
 ```
 
-## iterate
+### iterate
 
 `public func iterate<T>(initial: T, _ transform: (T) -> T) -> IterateSequence<T>`
 
@@ -110,7 +124,7 @@ iterate(2, {$0 * 2}).prefix(5)
 [2, 4, 8, 16, 32]
 ```
 
-## last
+### last
 
 `public func last(@noescape predicate: (Self.Generator.Element) -> Bool) -> Self.Generator.Element?`
 
@@ -122,7 +136,7 @@ Finds the last element in the sequence that passes the predciate.
 Optional.Some(5)
 ```
 
-## reduce
+### reduce
 
 `public func reduce(@noescape combine: (Self.Generator.Element, Self.Generator.Element) -> Self.Generator.Element) -> Self.Generator.Element?`
 
@@ -134,7 +148,7 @@ Returns the result of repeatedly calling `combine` with an accumulated value ini
 15
 ```
 
-## scan
+### scan
 
 `public func scan<T>(initial: T, @noescape combine: (T, Self.Generator.Element) -> T) -> [T]`
 
@@ -154,7 +168,7 @@ There is also a variant of scan that uses the first element of the sequence as t
 [1, 3, 6, 10, 15]
 ```
 
-## take
+### take
 
 `public func take(count: Int) -> [Self.Generator.Element]`
 
@@ -166,7 +180,7 @@ Returns a sequence containing the first `n` elements.
 [1, 2, 3]
 ```
 
-## takeWhile
+### takeWhile
 
 `public func takeWhile(@noescape predicate: (Self.Generator.Element) -> Bool) -> [Self.Generator.Element]`
 
@@ -178,7 +192,7 @@ Returns a sequence containing the initial elements that pass the predicate.
 [2, 4, 6]
 ```
 
-## unzip
+### unzip
 
 `public func unzip<T, U, Sequence: SequenceType where Sequence.Generator.Element == (T, U)>(sequence: Sequence) -> ([T], [U])`
 
@@ -198,7 +212,7 @@ unzip([(1, 2, 3), (4, 5, 6), (7, 8, 9)])
 ([1, 4, 7], [2, 5, 8], [3, 6, 9])
 ```
 
-## zip
+### zip
 
 `public func zip<Sequence: SequenceType>(sequence: Sequence) -> GeneratorSequence<Zip2Generator<Self.Generator, Sequence.Generator>>`
 
