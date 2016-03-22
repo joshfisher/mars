@@ -237,20 +237,6 @@ extension SequenceType {
     }
     
     /**
-    - returns: A sequence that repeats this sequence indefinitely.
-    
-    ```
-    [1, 2, 3].cycle().prefix(5)
-    
-    [1, 2, 3, 1, 2]
-    ```
-    */
-    @warn_unused_result
-    public func cycle() -> CycleSequence<Self.Generator.Element> {
-        return CycleSequence(sequence: AnySequence(self))
-    }
-    
-    /**
     - parameter count: The number of elements to skip.
     
     - returns: A sequence containing all but the first `n` elements.
@@ -265,7 +251,7 @@ extension SequenceType {
     public func drop(count: Int) -> [Self.Generator.Element] {
         var i = count
         var generator = generate()
-        while i-- > 0 && generator.next() != nil {}
+        while i > 0 && generator.next() != nil { i -= 1 }
         return Array(GeneratorSequence(generator))
     }
     
@@ -471,8 +457,9 @@ extension SequenceType {
         var i = count
         var result: [Self.Generator.Element] = []
         var generator = generate()
-        while let element = generator.next() where i-- > 0 {
+        while let element = generator.next() where i > 0 {
             result.append(element)
+            i -= 1
         }
         return result
     }
@@ -533,6 +520,22 @@ extension SequenceType {
     @warn_unused_result
     public func zip<Sequence1: SequenceType, Sequence2: SequenceType>(sequence1: Sequence1, _ sequence2: Sequence2) -> GeneratorSequence<Zip3Generator<Self.Generator, Sequence1.Generator, Sequence2.Generator>> {
         return GeneratorSequence(Zip3Generator(generate(), sequence1.generate(), sequence2.generate()))
+    }
+}
+
+extension SequenceType where Self.SubSequence: SequenceType, Self.SubSequence.Generator.Element == Self.Generator.Element, Self.SubSequence.SubSequence == Self.SubSequence {
+    /**
+     - returns: A sequence that repeats this sequence indefinitely.
+     
+     ```
+     [1, 2, 3].cycle().prefix(5)
+     
+     [1, 2, 3, 1, 2]
+     ```
+     */
+    @warn_unused_result
+    public func cycle() -> CycleSequence<Self.Generator.Element> {
+        return CycleSequence(sequence: AnySequence(self))
     }
 }
 
@@ -686,7 +689,7 @@ unzip([(1, 2), (3, 4), (5, 6)])
 ```
 */
 @warn_unused_result
-public func unzip<T, U, Sequence: SequenceType where Sequence.Generator.Element == (T, U)>(sequence: Sequence) -> ([T], [U]) {
+public func unzip<T, U, Sequence: SequenceType where Sequence.Generator.Element == (T, U), Sequence.SubSequence: SequenceType, Sequence.SubSequence.Generator.Element == (T,U), Sequence.SubSequence.SubSequence == Sequence.SubSequence>(sequence: Sequence) -> ([T], [U]) {
     var first: [T] = []
     var second: [U] = []
     for (a, b) in GeneratorSequence(Unzip2Generator(AnySequence(sequence).generate())) {
@@ -708,7 +711,7 @@ unzip([(1, 2, 3), (4, 5, 6), (7, 8, 9)])
 ```
 */
 @warn_unused_result
-public func unzip<T, U, V, Sequence: SequenceType where Sequence.Generator.Element == (T, U, V)>(sequence: Sequence) -> ([T], [U], [V]) {
+public func unzip<T, U, V, Sequence: SequenceType where Sequence.Generator.Element == (T, U, V), Sequence.SubSequence: SequenceType, Sequence.SubSequence.Generator.Element == (T, U, V), Sequence.SubSequence.SubSequence == Sequence.SubSequence>(sequence: Sequence) -> ([T], [U], [V]) {
     var first: [T] = []
     var second: [U] = []
     var third: [V] = []
